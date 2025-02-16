@@ -22,7 +22,7 @@ main_keyboard = ReplyKeyboardMarkup(
 
 inline_keyboard = InlineKeyboardMarkup(
     inline_keyboard=[
-        [InlineKeyboardButton(text="Перейти на сайт", url="http://example.com")],
+        [InlineKeyboardButton(text="Перейти на сайт", url="itstep.com")],
         [InlineKeyboardButton(text="Нажми", callback_data="button_click")]
     ]
 )
@@ -34,11 +34,11 @@ async def help_message(message: types.Message):
 
 @dp.message(Command("start"))
 async def start(message: types.Message):
-    await message.answer("Привет! Я тестовый бот <b>test</b>", reply_markup=main_keyboard)
+    await message.answer("Привет! Что тебе нужно?", reply_markup=main_keyboard)
 
 @dp.message(lambda message: message.text == "Привет")
 async def hello(message: types.Message):
-    await message.answer("Привет!!! Как дела?", reply_markup=inline_keyboard)
+    await message.answer("Привет! Ты нажал на кнопку", reply_markup=inline_keyboard)
 
 @dp.message(Command("/help"))
 async def help(message: types.Message):
