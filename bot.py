@@ -1,4 +1,5 @@
 import asyncio
+import random
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import (
     ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
@@ -22,32 +23,56 @@ main_keyboard = ReplyKeyboardMarkup(
 
 inline_keyboard = InlineKeyboardMarkup(
     inline_keyboard=[
-        [InlineKeyboardButton(text="Перейти на сайт", url="itstep.com")],
-        [InlineKeyboardButton(text="Нажми", callback_data="button_click")]
+        [InlineKeyboardButton(text="Начать", callback_data="start")],
+        [InlineKeyboardButton(text="Помощь", callback_data="help")],
+        [InlineKeyboardButton(text="Рандомное число", callback_data="random")]
     ]
 )
 
-@dp.message(lambda message: message.text == "Помощь")
-async def help_message(message: types.Message):
-    await message.answer("Тебе нужная помощь?"
-    )
+@dp.callback_query()
+async def callback_handler(callback: types.CallbackQuery):
+    if callback.data == "start":
+        await callback.message.answer("Write /start")
+    elif callback.data == "help":
+        await callback.message.answer("Write /help")
+    elif callback.data == "random":
+        await callback.message.answer("Write random number: /random")
+
+# @dp.message(lambda message: message.text == "Помощь")
+# async def help_message(message: types.Message):
+#     await message.answer("Тебе нужная помощь?"
+#     )
 
 @dp.message(Command("start"))
 async def start(message: types.Message):
     await message.answer("Привет! Что тебе нужно?", reply_markup=main_keyboard)
 
-@dp.message(lambda message: message.text == "Привет")
+@dp.message(Command("help"))
+async def help_command(message: types.Message):
+    command_text = (
+        "Доступные команды: \n"
+        "/start - Начать работу с ботом\n"
+        "/help - Показать список команд\n"
+        "/random - Случайное число"
+    )
+    await message.answer(command_text)
+
+@dp.message(Command("random"))
+async def random_command(message : types.Message):
+    number = random.randint(1, 100)
+    await message.answer(f"Случайное число: {number}")
+
+@dp.message(lambda message: message.text == "Привет!")
 async def hello(message: types.Message):
     await message.answer("Привет! Ты нажал на кнопку", reply_markup=inline_keyboard)
 
-@dp.message(Command("/help"))
-async def help(message: types.Message):
-    await message.answer("Тебе нужна помощь?", reply_markup=inline_keyboard)
+@dp.message(lambda message: message.text == "Помощь")
+async def help_message(message: types.Message):
+    await message.answer("Тебе нужная помощь?"
+)
 
 async def main():
     await dp.start_polling(bot, skip_updates=True)
     
 if __name__ == "__main__":
     asyncio.run(main())
-
-#123c123
