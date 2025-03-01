@@ -1,13 +1,8 @@
-import requests
+import aiohttp
+import os 
 
 API_KEY = "7f92074688f56f88b2a27aa0ce71316a"
 WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
-city = "Almaty"
-
-response = requests.get(f"{WEATHER_URL}?q={city}&appid={API_KEY}&units=metric")
-data = response.json()
-
-print(data)
 
 async def get_weather(city:str):
     params = {

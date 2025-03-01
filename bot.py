@@ -60,7 +60,7 @@ async def help_command(message: types.Message):
     await message.answer(command_text)
 
 
-@dp.message_handler(Command("weather"))
+@dp.message(Command("weather"))
 async def weather_command(message: types.Message):
     weather_info = await get_weather()
     await message.reply(weather_info)
