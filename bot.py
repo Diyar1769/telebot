@@ -112,8 +112,8 @@ async def perform_conversion(message: types.Message):
     result = await convert_currency(amount, from_currency, to_currency)
 
     if result is not None:
-        formatted_amount = "{:,}".format(int(amount)).replace(",", " ")  # Убираем дробную часть
-        formatted_result = "{:,}".format(int(result)).replace(",", " ")  # Убираем дробную часть
+        formatted_amount = "{:,}".format(int(amount)).replace(",", " ")  
+        formatted_result = "{:,}".format(int(result)).replace(",", " ")  
         await message.answer(f"{formatted_amount} {from_currency} = {formatted_result} {to_currency}")
     else:
         await message.answer("Ошибка при конвертации. Проверьте коды валют.")
